@@ -162,14 +162,16 @@ def main(wf):
         hierarchy = result["hierarchy"]
         subtitle = result["subtitle"]
 
-        if hierarchy[0] in sorted_results:
-            if subtitle in sorted_results[hierarchy[0]]:
-                sorted_results[hierarchy[0]][subtitle].append(result)
+        group_name = hierarchy[0] if len(hierarchy) > 0 else ''
+
+        if group_name in sorted_results:
+            if subtitle in sorted_results[group_name]:
+                sorted_results[group_name][subtitle].append(result)
             else:
-                sorted_results[hierarchy[0]][subtitle] = [result]
+                sorted_results[group_name][subtitle] = [result]
         else:
-            sorted_results[hierarchy[0]] = OrderedDict()
-            sorted_results[hierarchy[0]][subtitle] = [result]
+            sorted_results[group_name] = OrderedDict()
+            sorted_results[group_name][subtitle] = [result]
 
     # log.debug(sorted_results)
 
@@ -192,9 +194,12 @@ def main(wf):
 
     for group_name in sorted_results.keys():
         for key in sorted_results[group_name].keys():
-            subtitle = wrap(key, width=75)[0]
-            if len(subtitle) > 75:
-                subtitle += "..."
+            if key != '':
+                subtitle = wrap(key, width=75)[0]
+                if len(subtitle) > 75:
+                    subtitle += "..."
+            else:
+                subtitle = ''
 
             for result in sorted_results[group_name][key]:
                 wf.add_item(
