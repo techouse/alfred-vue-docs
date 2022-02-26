@@ -7,6 +7,7 @@ import functools
 import re
 import sys
 from collections import OrderedDict
+from HTMLParser import HTMLParser
 from textwrap import wrap
 from urllib import quote_plus
 
@@ -187,6 +188,8 @@ def main(wf):
             icon=Config.GOOGLE_ICON,
         )
 
+    html_parser = HTMLParser()
+
     for group_name in sorted_results.keys():
         for key in sorted_results[group_name].keys():
             subtitle = wrap(key, width=75)[0]
@@ -196,11 +199,11 @@ def main(wf):
             for result in sorted_results[group_name][key]:
                 wf.add_item(
                     uid=result["objectID"],
-                    title=result["title"],
-                    subtitle=subtitle,
+                    title=html_parser.unescape(result["title"]),
+                    subtitle=html_parser.unescape(subtitle),
                     arg=result["url"],
                     valid=True,
-                    largetext=result["title"],
+                    largetext=html_parser.unescape(result["title"]),
                     copytext=result["url"],
                     quicklookurl=result["url"],
                     icon=Config.VUE_ICON,
