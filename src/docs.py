@@ -7,6 +7,7 @@ import functools
 import re
 import sys
 from collections import OrderedDict
+from textwrap import wrap
 from urllib import quote_plus
 
 from algoliasearch.search_client import SearchClient
@@ -31,13 +32,26 @@ def handle_result(api_dict):
     """Extract relevant info from API result"""
     result = {}
 
-    for key in {"objectID", "hierarchy", "content", "url", "anchor"}:
+    for key in {"objectID", "hierarchy", "content", "url", "type"}:
         if key == "hierarchy":
-            api_dict[key] = OrderedDict(sorted(api_dict[key].items(), reverse=True))
-            for hierarchy_key, hierarchy_value in api_dict[key].items():
+            for hierarchy_key, hierarchy_value in OrderedDict(
+                sorted(api_dict[key].items(), reverse=True)
+            ).items():
                 if hierarchy_value:
                     result["title"] = hierarchy_value
                     break
+
+            result["hierarchy"] = [
+                value
+                for value in OrderedDict(
+                    sorted(api_dict[key].items(), key=lambda x: x[0])
+                ).values()
+                if value is not None
+            ][:-1]
+
+            result["subtitle"] = (
+                " > ".join(result["hierarchy"]) if len(api_dict[key]) > 1 else None
+            )
         else:
             result[key] = api_dict[key]
 
@@ -48,17 +62,40 @@ def search(query=None, version=Config.DEFAULT_VUE_VERSION, limit=Config.RESULT_C
     if query:
         # Algolia client
         client = SearchClient.create(
-            Config.ALGOLIA_CREDENTIALS[version]["ALGOLIA_APP_ID"],
-            Config.ALGOLIA_CREDENTIALS[version]["ALGOLIA_SEARCH_ONLY_API_KEY"],
+            Config.ALGOLIA_APP_ID,
+            Config.ALGOLIA_SEARCH_ONLY_API_KEY,
         )
         # Algolia index
-        index = client.init_index(
-            Config.ALGOLIA_CREDENTIALS[version]["ALGOLIA_SEARCH_INDEX"]
-        )
+        index = client.init_index(Config.ALGOLIA_SEARCH_INDEX)
         # Get the results
         results = index.search(
             query,
             {
+                "facetFilters": [
+                    "version:v{}".format(version),
+                ],
+                "attributesToRetrieve": [
+                    "hierarchy.lvl0",
+                    "hierarchy.lvl1",
+                    "hierarchy.lvl2",
+                    "hierarchy.lvl3",
+                    "hierarchy.lvl4",
+                    "hierarchy.lvl5",
+                    "hierarchy.lvl6",
+                    "content",
+                    "type",
+                    "url",
+                ],
+                "attributesToSnippet": [
+                    "hierarchy.lvl1:10",
+                    "hierarchy.lvl2:10",
+                    "hierarchy.lvl3:10",
+                    "hierarchy.lvl4:10",
+                    "hierarchy.lvl5:10",
+                    "hierarchy.lvl6:10",
+                    "content:10",
+                ],
+                "snippetEllipsisText": "...",
                 "page": 0,
                 "hitsPerPage": limit,
             },
@@ -111,11 +148,29 @@ def main(wf):
     results = [
         handle_result(result)
         for result in wf.cached_data(
-            key, functools.partial(search, query, version), max_age=Config.CACHE_MAX_AGE
+            key,
+            functools.partial(search, query, version),
+            max_age=Config.CACHE_MAX_AGE,
         )
     ]
 
     # log.debug("{} results for {!r}, version {!r}".format(len(results), query, version))
+
+    sorted_results = OrderedDict()
+    for result in results:
+        hierarchy = result["hierarchy"]
+        subtitle = result["subtitle"]
+
+        if hierarchy[0] in sorted_results:
+            if subtitle in sorted_results[hierarchy[0]]:
+                sorted_results[hierarchy[0]][subtitle].append(result)
+            else:
+                sorted_results[hierarchy[0]][subtitle] = [result]
+        else:
+            sorted_results[hierarchy[0]] = OrderedDict()
+            sorted_results[hierarchy[0]][subtitle] = [result]
+
+    # log.debug(sorted_results)
 
     # Show results
     if not results:
@@ -132,18 +187,25 @@ def main(wf):
             icon=Config.GOOGLE_ICON,
         )
 
-    for result in results:
-        wf.add_item(
-            uid=result["objectID"],
-            title=result["title"],
-            arg=result["url"],
-            valid=True,
-            largetext=result["title"],
-            copytext=result["url"],
-            quicklookurl=result["url"],
-            icon=Config.VUE_ICON,
-        )
-        # log.debug(result)
+    for group_name in sorted_results.keys():
+        for key in sorted_results[group_name].keys():
+            subtitle = wrap(key, width=75)[0]
+            if len(subtitle) > 75:
+                subtitle += "..."
+
+            for result in sorted_results[group_name][key]:
+                wf.add_item(
+                    uid=result["objectID"],
+                    title=result["title"],
+                    subtitle=subtitle,
+                    arg=result["url"],
+                    valid=True,
+                    largetext=result["title"],
+                    copytext=result["url"],
+                    quicklookurl=result["url"],
+                    icon=Config.VUE_ICON,
+                )
+                # log.debug(result)
 
     wf.send_feedback()
 
