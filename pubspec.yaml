@@ -1,5 +1,5 @@
-name: tailwindcss_docs_alfred_workflow
-description: Search the Tailwind CSS documentation using Alfred
+name: vuejs_docs_alfred_workflow
+description: Search the Vue.js documentation using Alfred
 
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
