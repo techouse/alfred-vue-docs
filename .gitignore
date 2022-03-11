@@ -10,5 +10,3 @@ build/
 
 # macOS specific
 .DS_Store
-
-old/
