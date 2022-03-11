@@ -8,7 +8,7 @@ import 'package:collection/collection.dart' show IterableExtension;
 import 'package:html_unescape/html_unescape.dart' show HtmlUnescape;
 
 import 'src/constants/config.dart' show Config;
-import 'src/extensions/truncate.dart';
+import 'src/extensions/truncate.dart' show Truncate;
 import 'src/models/search_result.dart' show SearchResult;
 import 'src/services/algolia_search.dart' show AlgoliaSearch;
 
