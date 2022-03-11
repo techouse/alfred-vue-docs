@@ -36,5 +36,4 @@ vue v-if v2
 
 ### Note
 
-Built using [Alfred-Workflow](https://github.com/deanishe/alfred-workflow).
 The lightning fast search is powered by [Algolia](https://www.algolia.com) using the _same_ index as the official [Vue.js](https://v3.vuejs.org/) website.
