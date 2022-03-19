@@ -12,6 +12,31 @@
 		<array>
 			<dict>
 				<key>destinationuid</key>
+				<string>4762FDDA-6508-4BBC-BDC5-C50ADE635F8C</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>4762FDDA-6508-4BBC-BDC5-C50ADE635F8C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>6543063C-3EAC-4D21-9788-7A9538924911</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>sourceoutputuid</key>
+				<string>D850B7E1-B6F7-4A5E-8EF6-522CBF4E0A21</string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
 				<string>38E14CEF-CEE0-49D5-B8EF-BBFC7D8929F1</string>
 				<key>modifiers</key>
 				<integer>0</integer>
@@ -32,6 +57,29 @@
 	<string>Vue.js Docs</string>
 	<key>objects</key>
 	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./docs -u</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>6543063C-3EAC-4D21-9788-7A9538924911</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
 		<dict>
 			<key>config</key>
 			<dict>
@@ -84,6 +132,36 @@
 		<dict>
 			<key>config</key>
 			<dict>
+				<key>conditions</key>
+				<array>
+					<dict>
+						<key>inputstring</key>
+						<string>{query}</string>
+						<key>matchcasesensitive</key>
+						<false/>
+						<key>matchmode</key>
+						<integer>0</integer>
+						<key>matchstring</key>
+						<string>update:workflow</string>
+						<key>outputlabel</key>
+						<string>Update Workflow</string>
+						<key>uid</key>
+						<string>D850B7E1-B6F7-4A5E-8EF6-522CBF4E0A21</string>
+					</dict>
+				</array>
+				<key>elselabel</key>
+				<string>Open URL</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.utility.conditional</string>
+			<key>uid</key>
+			<string>4762FDDA-6508-4BBC-BDC5-C50ADE635F8C</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
 				<key>browser</key>
 				<string></string>
 				<key>spaces</key>
@@ -108,22 +186,36 @@
 		<key>38E14CEF-CEE0-49D5-B8EF-BBFC7D8929F1</key>
 		<dict>
 			<key>xpos</key>
-			<integer>470</integer>
+			<integer>775</integer>
 			<key>ypos</key>
-			<integer>30</integer>
+			<integer>515</integer>
 		</dict>
 		<key>452717DC-150A-4778-AB7B-43635630C388</key>
 		<dict>
 			<key>xpos</key>
-			<integer>270</integer>
+			<integer>325</integer>
 			<key>ypos</key>
-			<integer>30</integer>
+			<integer>375</integer>
+		</dict>
+		<key>4762FDDA-6508-4BBC-BDC5-C50ADE635F8C</key>
+		<dict>
+			<key>xpos</key>
+			<integer>555</integer>
+			<key>ypos</key>
+			<integer>395</integer>
+		</dict>
+		<key>6543063C-3EAC-4D21-9788-7A9538924911</key>
+		<dict>
+			<key>xpos</key>
+			<integer>775</integer>
+			<key>ypos</key>
+			<integer>235</integer>
 		</dict>
 	</dict>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
-	<string>2.0.2</string>
+	<string>2.0.3</string>
 	<key>webaddress</key>
 	<string>https://github.com/techouse</string>
 </dict>
