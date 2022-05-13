@@ -4,7 +4,7 @@ description: Search the Vue.js documentation using Alfred
 # Prevent accidental publishing to pub.dev.
 publish_to: 'none'
 
-version: 2.0.7
+version: 2.0.8
 
 environment:
   sdk: '>=2.17.0 <3.0.0'
