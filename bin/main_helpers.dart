@@ -5,8 +5,8 @@ final HtmlUnescape _unescape = HtmlUnescape();
 final AlfredWorkflow _workflow = AlfredWorkflow();
 
 final AlfredUpdater _updater = AlfredUpdater(
-  githubRepositoryUrl: Config.githubRepositoryUrl,
-  currentVersion: Config.version,
+  githubRepositoryUrl: Uri.parse(Env.githubRepositoryUrl),
+  currentVersion: Env.appVersion,
   updateInterval: Duration(days: 7),
 );
 
@@ -15,7 +15,7 @@ const _updateItem = AlfredItem(
   subtitle: 'Press <enter> to auto-update to a new version of this workflow.',
   arg: 'update:workflow',
   match:
-  'Auto-Update available! Press <enter> to auto-update to a new version of this workflow.',
+      'Auto-Update available! Press <enter> to auto-update to a new version of this workflow.',
   icon: AlfredItemIcon(path: 'alfredhatcog.png'),
   valid: true,
 );
@@ -37,7 +37,7 @@ Future<void> _performSearch(String query, {String? version}) async {
 
   if (snapshot.nbHits > 0) {
     final sortedResults = _sortResults(snapshot.hits.map(
-          (snapshot) => SearchResult.fromJson(snapshot.data),
+      (snapshot) => SearchResult.fromJson(snapshot.data),
     ));
 
     final AlfredItems items = AlfredItems([]);
@@ -70,7 +70,7 @@ Future<void> _performSearch(String query, {String? version}) async {
     _workflow.addItems(items.items);
   } else {
     final Uri url =
-    Uri.https('www.google.com', '/search', {'q': 'Vue.js $query'});
+        Uri.https('www.google.com', '/search', {'q': 'Vue.js $query'});
 
     _workflow.addItem(
       AlfredItem(
@@ -87,14 +87,14 @@ Future<void> _performSearch(String query, {String? version}) async {
 }
 
 Map<String, Map<String, List<SearchResult>>> _sortResults(
-    Iterable<SearchResult> results,
-    ) {
+  Iterable<SearchResult> results,
+) {
   final Map<String, Map<String, List<SearchResult>>> sortedResults = {};
 
   for (final SearchResult result in results) {
     final Map<String, String?> hierarchy = result.hierarchy.toJson()
       ..removeWhere(
-            (_, value) => value == null || value == result.hierarchy.last,
+        (_, value) => value == null || value == result.hierarchy.last,
       );
     final String subtitle = hierarchy.length > 0
         ? _unescape.convert(hierarchy.values.join(' > '))
