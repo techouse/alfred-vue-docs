@@ -10,11 +10,12 @@ environment:
   sdk: '>=2.17.0 <3.0.0'
 
 dependencies:
+  alfred_workflow: ^0.2.10
   algolia: ^1.1.1
   args: ^2.3.0
-  html_unescape: ^2.0.0
-  alfred_workflow: ^0.2.10
+  cli_script: ^0.2.6
   collection: ^1.16.0
+  html_unescape: ^2.0.0
   json_annotation: ^4.7.0
 
 dev_dependencies:
