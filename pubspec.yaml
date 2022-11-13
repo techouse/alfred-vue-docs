@@ -15,7 +15,10 @@ dependencies:
   html_unescape: ^2.0.0
   alfred_workflow: ^0.2.10
   collection: ^1.16.0
+  json_annotation: ^4.7.0
 
 dev_dependencies:
-  lints: ^2.0.0
+  build_runner: ^2.1.7
   dart_code_metrics: ^5.0.1
+  json_serializable: ^6.1.5
+  lints: ^2.0.0

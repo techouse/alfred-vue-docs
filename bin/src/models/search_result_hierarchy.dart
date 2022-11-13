@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'search_result_hierarchy.g.dart';
+
+@JsonSerializable()
 class SearchResultHierarchy {
   const SearchResultHierarchy({
     required this.lvl0,
@@ -32,22 +37,9 @@ class SearchResultHierarchy {
 
   String get last => lvl6 ?? lvl5 ?? lvl4 ?? lvl3 ?? lvl2 ?? lvl1 ?? lvl0;
 
-  SearchResultHierarchy.fromJson(Map<String, dynamic> json)
-      : lvl0 = json['lvl0'] as String,
-        lvl1 = json['lvl1'] as String?,
-        lvl2 = json['lvl2'] as String?,
-        lvl3 = json['lvl3'] as String?,
-        lvl4 = json['lvl4'] as String?,
-        lvl5 = json['lvl5'] as String?,
-        lvl6 = json['lvl6'] as String?;
+  factory SearchResultHierarchy.fromJson(Map<String, dynamic> json) =>
+      _$SearchResultHierarchyFromJson(json);
 
-  Map<String, String?> toJson() => {
-        'lvl0': lvl0,
-        'lvl1': lvl1,
-        'lvl2': lvl2,
-        'lvl3': lvl3,
-        'lvl4': lvl4,
-        'lvl5': lvl5,
-        'lvl6': lvl6,
-      };
+  Map<String, String?> toJson() => _$SearchResultHierarchyToJson(this)
+      .map((key, value) => MapEntry(key, value?.toString()));
 }
