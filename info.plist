@@ -65,7 +65,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>./docs -u</string>
+				<string>arch -x86_64 ./docs -u</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -108,7 +108,7 @@
 				<key>runningsubtext</key>
 				<string>Fetching the documentation ...</string>
 				<key>script</key>
-				<string>./docs -q "{query}"</string>
+				<string>arch -x86_64 ./docs -q "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -151,6 +151,8 @@
 				</array>
 				<key>elselabel</key>
 				<string>Open URL</string>
+				<key>hideelse</key>
+				<false/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.utility.conditional</string>
@@ -164,12 +166,14 @@
 			<dict>
 				<key>browser</key>
 				<string></string>
+				<key>skipqueryencode</key>
+				<false/>
+				<key>skipvarencode</key>
+				<false/>
 				<key>spaces</key>
 				<string></string>
 				<key>url</key>
 				<string>{query}</string>
-				<key>utf8</key>
-				<true/>
 			</dict>
 			<key>type</key>
 			<string>alfred.workflow.action.openurl</string>
@@ -186,32 +190,34 @@
 		<key>38E14CEF-CEE0-49D5-B8EF-BBFC7D8929F1</key>
 		<dict>
 			<key>xpos</key>
-			<integer>775</integer>
+			<real>775</real>
 			<key>ypos</key>
-			<integer>515</integer>
+			<real>515</real>
 		</dict>
 		<key>452717DC-150A-4778-AB7B-43635630C388</key>
 		<dict>
 			<key>xpos</key>
-			<integer>325</integer>
+			<real>325</real>
 			<key>ypos</key>
-			<integer>375</integer>
+			<real>375</real>
 		</dict>
 		<key>4762FDDA-6508-4BBC-BDC5-C50ADE635F8C</key>
 		<dict>
 			<key>xpos</key>
-			<integer>555</integer>
+			<real>555</real>
 			<key>ypos</key>
-			<integer>395</integer>
+			<real>395</real>
 		</dict>
 		<key>6543063C-3EAC-4D21-9788-7A9538924911</key>
 		<dict>
 			<key>xpos</key>
-			<integer>775</integer>
+			<real>775</real>
 			<key>ypos</key>
-			<integer>235</integer>
+			<real>235</real>
 		</dict>
 	</dict>
+	<key>userconfigurationconfig</key>
+	<array/>
 	<key>variablesdontexport</key>
 	<array/>
 	<key>version</key>
