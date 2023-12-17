@@ -31,25 +31,29 @@ void _showPlaceholder() {
 }
 
 Future<void> _performSearch(String query, {String? version}) async {
-  final AlgoliaQuerySnapshot snapshot = await AlgoliaSearch.query(
-    query,
-    version: version,
-  );
+  try {
+    final SearchResponse res = await AlgoliaSearch.query(
+      query,
+      version: version,
+    );
 
-  if (snapshot.nbHits > 0) {
-    final sortedResults = _sortResults(snapshot.hits.map(
-      (snapshot) => SearchResult.fromJson(snapshot.data),
-    ));
+    if (res.nbHits > 0) {
+      final sortedResults = _sortResults(
+        res.hits.map(
+          (Hit hit) => SearchResult.fromJson(
+            <String, dynamic>{...hit, 'objectID': hit.objectID},
+          ),
+        ),
+      );
 
-    final AlfredItems items = AlfredItems([]);
+      final AlfredItems items = AlfredItems([]);
 
-    for (final String groupName in sortedResults.keys) {
-      for (final String key in sortedResults[groupName]!.keys) {
-        final String subtitle = key.truncate(75);
+      for (final String groupName in sortedResults.keys) {
+        for (final String key in sortedResults[groupName]!.keys) {
+          final String subtitle = key.truncate(75);
 
-        for (final SearchResult result in sortedResults[groupName]![key]!) {
-          items.items
-            ..add(
+          for (final SearchResult result in sortedResults[groupName]![key]!) {
+            items.items.add(
               AlfredItem(
                 uid: result.objectID,
                 title: _unescape.convert(result.hierarchy.last),
@@ -64,26 +68,29 @@ Future<void> _performSearch(String query, {String? version}) async {
                 valid: true,
               ),
             );
+          }
         }
       }
+
+      _workflow.addItems(items.items);
+    } else {
+      final Uri url =
+          Uri.https('www.google.com', '/search', {'q': 'Vue.js $query'});
+
+      _workflow.addItem(
+        AlfredItem(
+          title: 'No matching answers found',
+          subtitle: 'Shall I try and search Google?',
+          arg: url.toString(),
+          text: AlfredItemText(copy: url.toString()),
+          quickLookUrl: url.toString(),
+          icon: AlfredItemIcon(path: 'google.png'),
+          valid: true,
+        ),
+      );
     }
-
-    _workflow.addItems(items.items);
-  } else {
-    final Uri url =
-        Uri.https('www.google.com', '/search', {'q': 'Vue.js $query'});
-
-    _workflow.addItem(
-      AlfredItem(
-        title: 'No matching answers found',
-        subtitle: 'Shall I try and search Google?',
-        arg: url.toString(),
-        text: AlfredItemText(copy: url.toString()),
-        quickLookUrl: url.toString(),
-        icon: AlfredItemIcon(path: 'google.png'),
-        valid: true,
-      ),
-    );
+  } finally {
+    AlgoliaSearch.dispose();
   }
 }
 
@@ -97,7 +104,7 @@ Map<String, Map<String, List<SearchResult>>> _sortResults(
       ..removeWhere(
         (_, value) => value == null || value == result.hierarchy.last,
       );
-    final String subtitle = hierarchy.length > 0
+    final String subtitle = hierarchy.isNotEmpty
         ? _unescape.convert(hierarchy.values.join(' > '))
         : '';
     final String groupName = result.hierarchy.first;
