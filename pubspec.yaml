@@ -15,7 +15,7 @@ dependencies:
   args: ^2.4.2
   cli_script: ^1.0.0
   collection: ^1.18.0
-  envied: ^0.5.2
+  envied: ^0.5.3
   html_unescape: ^2.0.0
   json_annotation: ^4.8.1
 
