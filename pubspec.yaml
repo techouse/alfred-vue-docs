@@ -11,7 +11,7 @@ environment:
 
 dependencies:
   alfred_workflow: ^0.5.1
-  algoliasearch: ^1.2.0
+  algoliasearch: ^1.4.0
   args: ^2.4.2
   cli_script: ^1.0.0
   collection: ^1.18.0
