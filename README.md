@@ -27,12 +27,9 @@ Either press `⌘Y` to Quick Look the result, or press `<enter>` to open it in y
 
 ## Changing Branches
 
-The workflow supports searching the documentation of both branches, `v3`, `v2`.
-By default, it searches the `v3` branch. To search branch `v2` simply type `v2` **anywhere** in your query, like so:
+The workflow supports searching the documentation of several versions. To change the branch, configure the Workflow as show in the image below.
 
-```
-vue v-if v2
-```
+![configure](configure.png)
 
 ### Note
 
