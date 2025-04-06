@@ -37,7 +37,7 @@ Future<void> _performSearch(String query, {required String version}) async {
       version: version,
     );
 
-    if (res.nbHits > 0) {
+    if ((res.nbHits ?? 0) > 0) {
       final sortedResults = _sortResults(
         res.hits.map(
           (Hit hit) => SearchResult.fromJson(
