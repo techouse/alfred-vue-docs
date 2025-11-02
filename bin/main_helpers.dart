@@ -40,9 +40,10 @@ Future<void> _performSearch(String query, {required String version}) async {
     if ((res.nbHits ?? 0) > 0) {
       final sortedResults = _sortResults(
         res.hits.map(
-          (Hit hit) => SearchResult.fromJson(
-            <String, dynamic>{...hit, 'objectID': hit.objectID},
-          ),
+          (Hit hit) => SearchResult.fromJson(<String, dynamic>{
+            ...hit,
+            'objectID': hit.objectID,
+          }),
         ),
       );
 
@@ -74,8 +75,9 @@ Future<void> _performSearch(String query, {required String version}) async {
 
       _workflow.addItems(items.items);
     } else {
-      final Uri url =
-          Uri.https('www.google.com', '/search', {'q': 'Vue.js $query'});
+      final Uri url = Uri.https('www.google.com', '/search', {
+        'q': 'Vue.js $query',
+      });
 
       _workflow.addItem(
         AlfredItem(
