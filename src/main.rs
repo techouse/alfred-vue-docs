@@ -231,11 +231,14 @@ fn write_workflow_stdout(workflow: &Workflow, update_available: bool) -> Result<
 
 fn render_workflow_json(workflow: &Workflow, update_available: bool) -> Result<String> {
     let mut items: Items = workflow.get_items()?;
-    // alfred_workflow_rs omits UIDs when exact-order serialization is enabled. Keep the
-    // workflow's disabled smart-ordering setting, but serialize this deterministic item
-    // sequence with UIDs so Alfred receives the documented result identity as well.
+    // Alfred's skipknowledge flag preserves provider order while retaining result UIDs.
     items.set_exact_order(false);
-    items.set_skip_knowledge(workflow.skip_knowledge());
+    items.set_skip_knowledge(
+        workflow
+            .disable_alfred_smart_result_ordering()
+            .then_some(true)
+            .or(workflow.skip_knowledge()),
+    );
     items.set_cache(workflow.automatic_cache());
     if update_available {
         items.insert(0, update_item());

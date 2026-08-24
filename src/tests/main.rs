@@ -337,7 +337,7 @@ fn update_item_is_rendered_without_entering_file_cache() -> Result<()> {
 }
 
 #[test]
-fn rendered_items_keep_uids_with_disabled_smart_ordering() -> Result<()> {
+fn rendered_items_keep_uids_and_skip_alfred_knowledge() -> Result<()> {
     let mut workflow = Workflow::new();
     workflow.set_disable_alfred_smart_result_ordering(true);
     workflow.add_item(
@@ -350,7 +350,12 @@ fn rendered_items_keep_uids_with_disabled_smart_ordering() -> Result<()> {
     let rendered: serde_json::Value =
         serde_json::from_str(&render_workflow_json(&workflow, false)?)?;
 
-    assert!(workflow.disable_alfred_smart_result_ordering());
-    assert_eq!(rendered["items"][0]["uid"], "algolia-object");
+    assert_eq!(
+        (
+            rendered["skipknowledge"].as_bool(),
+            rendered["items"][0]["uid"].as_str(),
+        ),
+        (Some(true), Some("algolia-object"))
+    );
     Ok(())
 }
