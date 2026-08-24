@@ -65,7 +65,7 @@
 				<key>escaping</key>
 				<integer>102</integer>
 				<key>script</key>
-				<string>[ "$(uname -m)" = "arm64" ] &amp;&amp; ./workflow -u || ./workflow_intel -u</string>
+				<string>./workflow -u</string>
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
@@ -108,7 +108,7 @@
 				<key>runningsubtext</key>
 				<string>Fetching the documentation ...</string>
 				<key>script</key>
-				<string>[ "$(uname -m)" = "arm64" ] &amp;&amp; ./workflow -q "{query}" || ./workflow_intel -q "{query}"</string>
+				<string>./workflow -q "{query}"</string>
 				<key>scriptargtype</key>
 				<integer>0</integer>
 				<key>scriptfile</key>
@@ -184,7 +184,7 @@
 		</dict>
 	</array>
 	<key>readme</key>
-	<string></string>
+	<string>Type vue followed by a query to search the Vue.js documentation. Vue 3 is selected by default; choose Vue 2 from the Vue version preference. Press Return to open a result or Command-Y to Quick Look it.</string>
 	<key>uidata</key>
 	<dict>
 		<key>38E14CEF-CEE0-49D5-B8EF-BBFC7D8929F1</key>
