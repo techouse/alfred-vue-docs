@@ -24,6 +24,8 @@ vue composition
 
 Choose the Vue version in the workflow configuration. Vue 3 is selected by default and Vue 2 is also available. The selected version is removed from the search expression when it appears as an exact, case-sensitive token.
 
+![configure](configure.png)
+
 Press `⌘Y` to Quick Look a result or press Return to open it in the browser.
 
 The search is powered by [Algolia](https://www.algolia.com) using the same index as the official [Vue.js](https://vuejs.org/) documentation.
