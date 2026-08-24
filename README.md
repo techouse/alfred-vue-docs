@@ -4,33 +4,45 @@
 ![GitHub All Releases](https://img.shields.io/github/downloads/techouse/alfred-vue-docs/total.svg)
 ![GitHub](https://img.shields.io/github/license/techouse/alfred-vue-docs.svg)
 
-
-Search the [Vue.js documentation](https://v3.vuejs.org/guide/introduction.html) using [Alfred](https://www.alfredapp.com/).
+Search the [Vue.js documentation](https://vuejs.org/guide/introduction.html) using [Alfred](https://www.alfredapp.com/).
 
 ![demo](demo.gif)
 
 ## Installation
 
 1. [Download the latest version](https://github.com/techouse/alfred-vue-docs/releases/latest)
-2. Install the workflow by double-clicking the `.alfredworkflow` file
-3. You can add the workflow to a category, then click "Import" to finish importing. You'll now see the workflow listed in the left sidebar of your Workflows preferences pane.
+2. Install the workflow by double-clicking the `.alfredworkflow` file.
+3. Add it to an Alfred category if desired, then click **Import**.
 
 ## Usage
 
-Just type `vue` followed by your search query.
+Type `vue` followed by a search query:
 
-```
+```text
 vue composition
 ```
 
-Either press `⌘Y` to Quick Look the result, or press `<enter>` to open it in your web browser.
+Choose the Vue version in the workflow configuration. Vue 3 is selected by default and Vue 2 is also available. The selected version is removed from the search expression when it appears as an exact, case-sensitive token.
 
-## Changing Branches
+Press `⌘Y` to Quick Look a result or press Return to open it in the browser.
 
-The workflow supports searching the documentation of several versions. To change the branch, configure the Workflow as show in the image below.
+The search is powered by [Algolia](https://www.algolia.com) using the same index as the official [Vue.js](https://vuejs.org/) documentation.
 
-![configure](configure.png)
+## Development
 
-### Note
+The workflow is implemented in Rust 2024 and requires Rust 1.88 or newer. Copy `.env.example` to `.env` and fill in the three Algolia search values, then run a local query:
 
-The lightning fast search is powered by [Algolia](https://www.algolia.com) using the _same_ index as the official [Vue.js](https://v3.vuejs.org/) website.
+```sh
+cargo run -- -q "composition"
+```
+
+Install the locked license tool before running the complete local checks:
+
+```sh
+cargo install cargo-about --locked --features cli
+make ci
+```
+
+`make package` builds a universal `.alfredworkflow` archive containing arm64 and x86_64 slices. The arm64 slice targets macOS 11.0 and the Intel slice targets macOS 10.15. `make build-release` remains available for a native development build.
+
+Runtime Algolia values take precedence over the explicit working-directory `.env`, which takes precedence over values embedded during a release build. The `.env` file, caches, source files, screenshots, and build artifacts are never copied into the package.
